@@ -22,30 +22,22 @@ class CLI_Ubuntu:
                             help="url of package"
                             )
 
-        parser.add_argument('--graph-name', '-g',
+        parser.add_argument('--work-mode', '-wd',
+                            type=int,
+                            default=1,
+                            help="working mode with the test repository"
+                            )
+
+        parser.add_argument('--package-version', '-pv',
                             type=str,
-                            default='graph.png',
-                            help="name of graph file"
+                            default="latest",
+                            help="package version"
                             )
-
-        parser.add_argument('--ascii', '-as',
-                            type=bool,
-                            default=False,
-                            help="name of graph file"
-                            )
-
 
         parser.add_argument('--max-depth', '-d',
                             type=int,
                             default=5,
-                            help="name of graph file"
-                            )
-
-
-        parser.add_argument('--filter', '-f',
-                            type=str,
-                            default='',
-                            help="name of graph file"
+                            help="Максимальная глубина анализа зависимостей."
                             )
 
         args = parser.parse_args()
@@ -53,19 +45,17 @@ class CLI_Ubuntu:
 
         params['package_name'] = args.package_name
         params['url'] = args.url
-        params['graph_name'] = args.graph_name
-        params['ascii'] = args.ascii
+        params['work_mode'] = args.work_mode
+        params['package_version'] = args.package_version
         params['max_depth'] = args.max_depth
-        params['filter'] = args.filter
         return params
 
     def print_args(self):
         print(f"package-name:\t{self.params['package_name']}")
         print(f"url:\t\t{self.params['url']}")
-        print(f"graph_name:\t{self.params['graph_name']}")
-        print(f"ascii:\t\t{self.params['ascii']}")
+        print(f"work_mode:\t{self.params['work_mode']}")
+        print(f"package_version:\t\t{self.params['package_version']}")
         print(f"max_depth:\t{self.params['max_depth']}")
-        print(f"filter:\t{self.params['filter']}")
 
 
 CLI = CLI_Ubuntu()
