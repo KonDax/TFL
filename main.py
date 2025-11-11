@@ -1,6 +1,6 @@
 import argparse
 
-class CLI_Ubuntu:
+class CLI:
     def __init__(self):
         self.params = self.cmd_line()
         self.print_args()
@@ -13,25 +13,25 @@ class CLI_Ubuntu:
         parser.add_argument('--package-name', '-p',
                             type=str,
                             required=True,
-                            help="name of package"
+                            help="Name of package"
                             )
 
         parser.add_argument('--url', '-u',
                             type=str,
                             required=True,
-                            help="url of package"
+                            help="Url of package"
                             )
 
         parser.add_argument('--work-mode', '-wd',
                             type=int,
                             default=1,
-                            help="working mode with the test repository"
+                            help="Working mode with the test repository"
                             )
 
         parser.add_argument('--package-version', '-pv',
                             type=str,
                             default="latest",
-                            help="package version"
+                            help="Package version"
                             )
 
         parser.add_argument('--max-depth', '-d',
@@ -58,4 +58,4 @@ class CLI_Ubuntu:
         print(f"max_depth:\t{self.params['max_depth']}")
 
 
-CLI = CLI_Ubuntu()
+cli = CLI()
