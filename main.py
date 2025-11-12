@@ -76,7 +76,9 @@ class CLI:
                 return deps
             return []
     def recursive_dfs(self, start_package: Package, max_depth_recursive: int = 5) -> list[Package] | None:
-        for package in self.visited:
+        if max_depth_recursive <= 0:
+            return []
+        for package in self.visited.copy():
             comp = Package.compare(start_package, package)
             if comp == "==" or comp == "<":
                 return None
@@ -85,8 +87,6 @@ class CLI:
                 del self.graph_dependencies[package]
         # if start_package in self.visited:
         #     return None
-        if max_depth_recursive <= 0:
-            return []
         dependencies = self.get_dependencies(start_package)
         # print(start_package.name, dependencies, self.visited, self.stack)
         if not dependencies:
