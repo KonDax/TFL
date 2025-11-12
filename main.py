@@ -41,7 +41,7 @@ class CLI:
                             )
 
         args = parser.parse_args()
-        # print(args)
+        print(args)
 
         params['package_name'] = args.package_name
         params['url'] = args.url
