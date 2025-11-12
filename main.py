@@ -10,7 +10,7 @@ from  SimplePackage import Package
 class CLI:
     def __init__(self):
         self.params = self.cmd_line()
-        self.print_args()
+        # self.print_args()
         self.packages = []
 
     def cmd_line(self):
