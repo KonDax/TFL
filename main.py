@@ -75,7 +75,10 @@ class CLI:
                 return deps
             return []
     def recursive_dfs(self, start_package: Package, max_depth_recursive: int = 5) -> list[Package] | None:
-        for package in self.visited:
+        if max_depth_recursive <= 0:
+            return []
+        # print(start_package.name, self.visited)
+        for package in self.visited.copy():
             comp = Package.compare(start_package, package)
             if comp == "==" or comp == "<":
                 return None
@@ -84,10 +87,8 @@ class CLI:
                 del self.graph_dependencies[package]
         # if start_package in self.visited:
         #     return None
-        if max_depth_recursive <= 0:
-            return []
         dependencies = self.get_dependencies(start_package)
-        # print(start_package.name, dependencies, self.visited, self.stack)
+        # print(start_package.name, dependencies, self.visited)
         if not dependencies:
             return []
         self.visited.add(start_package)
@@ -107,10 +108,13 @@ class CLI:
 url1 = "https://www.nuget.org/api/v2/package/Newtonsoft.Json/13.0.4"
 url2 = "https://www.nuget.org/api/v2/package/Microsoft.Extensions.DependencyInjection/10.0.0"
 url3 = "https://www.nuget.org/api/v2/package/Microsoft.EntityFrameworkCore/10.0.0"
+url4 = "https://www.nuget.org/api/v2/package/System.Security.Cryptography.Pkcs/10.0.0"
 test1 = "python .\main.py -p A -u Test.txt -wd True -pv 1.0.0"
 test2 = "python .\main.py -p Microsoft.Extensions.DependencyInjection -u https://www.nuget.org/api/v2/package -pv 10.0.0 -d 3"
 if __name__ == "__main__":
     cli = CLI()
     cli.get_graph_dependencies()
-
+    # package = Package("Microsoft.NETCore.Platforms", "5.0.0")
+    # package.load_package_url("https://www.nuget.org/api/v2/package")
+    # print(package.get_dependencies_by_path())
 
