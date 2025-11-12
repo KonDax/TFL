@@ -15,7 +15,7 @@ class Package:
         try:
             with urllib.request.urlopen(package_url) as response:
                 compressed_data = response.read()
-            path = f'packages/{self.name}.{self.version}.nupkg'
+            path = f'{self.name}.{self.version}.nupkg'
             with open(path, 'wb') as f:
                 f.write(compressed_data)
             print(f"Сохранено в: {path}")
