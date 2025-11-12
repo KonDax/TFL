@@ -2,3 +2,5 @@
 .venv
 CLI_PIP.py
 CLI_Ubuntu_new.py
+__pycache__
+packages

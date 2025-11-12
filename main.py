@@ -1,16 +1,17 @@
 import argparse
 import urllib.request
-import zipfile
+import urllib.error
+import re
+from typing import AnyStr
 from zipfile import ZipFile
+from  SimplePackage import Package
 
 
 class CLI:
     def __init__(self):
-        # self.params = self.cmd_line()
-        # self.print_args()
-        package_path = self.load_package_url("Microsoft.Extensions.DependencyInjection", "10.0.0")
-        self.load_packages(package_path)
-
+        self.params = self.cmd_line()
+        self.print_args()
+        self.packages = []
 
     def cmd_line(self):
         params = {}
@@ -29,8 +30,8 @@ class CLI:
                             )
 
         parser.add_argument('--work-mode', '-wd',
-                            type=int,
-                            default=1,
+                            type=bool,
+                            default=False,
                             help="Working mode with the test repository"
                             )
 
@@ -63,26 +64,18 @@ class CLI:
         print(f"package_version:\t\t{self.params['package_version']}")
         print(f"max_depth:\t{self.params['max_depth']}")
 
-    def load_package_url(self, package_name: str, version_name: str) -> str:
-        packages_url = f"https://www.nuget.org/api/v2/package/{package_name}/{version_name}"
-        print(f'load from {packages_url}')
-        with urllib.request.urlopen(packages_url) as response:
-            compressed_data = response.read()
-        package_path = f'{package_name}.{version_name}.nupkg'
-        with open(package_path, 'wb') as f:
-            f.write(compressed_data)
-        print(f"Сохранено в: {package_path}")
-        return package_path
-
-    def load_packages(self, package_path: str = ''):
-        file = ZipFile(package_path)
-        print(*file.namelist(), sep="\n")
-        print()
-        with file.open("Microsoft.Extensions.DependencyInjection.nuspec") as f:
-            print(*f.readlines(), sep="\n")
+    def search_dependencies(self):
+        self.packages.append(Package(self.params["package_name"], self.params['package_version']))
+        for package in self.packages:
+            if package.load_package_url(self.params["url"]) is not None:
+                print(package.search_dependencies_by_path())
 
 
-cli = CLI()
+# print(re.search(r'.*?.nuspec', "wethweth\nereryjeryj\nwetrhwerthwreth.nuspec"))
 url1 = "https://www.nuget.org/api/v2/package/Newtonsoft.Json/13.0.4"
-url2 = "https://www.nuget.org/api/v2/package/System.Security.Cryptography.Pkcs/10.0.0"
+url2 = "https://www.nuget.org/api/v2/package/Microsoft.Extensions.DependencyInjection/10.0.0"
 url3 = "https://www.nuget.org/api/v2/package/Microsoft.EntityFrameworkCore/10.0.0"
+if __name__ == "__main__":
+    cli = CLI()
+    cli.search_dependencies()
+
