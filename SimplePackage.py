@@ -11,14 +11,14 @@ class Package:
         self.dependencies: list[Package] = []
     def load_package_url(self, url: str) -> str | None:
         package_url = url + "/" + self.name + "/" + self.version
-        print(f'load from {package_url}')
+        # print(f'load from {package_url}')
         try:
             with urllib.request.urlopen(package_url) as response:
                 compressed_data = response.read()
             path = f'{self.name}.{self.version}.nupkg'
             with open(path, 'wb') as f:
                 f.write(compressed_data)
-            print(f"Сохранено в: {path}")
+            # print(f"Сохранено в: {path}")
             self.path = path
             return path
         except Exception as e:
@@ -74,6 +74,6 @@ class Package:
         try:
             if self.path != "":
                 os.remove(self.path)
-                path = ""
+                self.path = ""
         except Exception as e:
             print(f"Error: {e}")
