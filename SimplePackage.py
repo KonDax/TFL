@@ -1,6 +1,7 @@
 import urllib.request
 from zipfile import ZipFile
 import re
+import os
 
 class Package:
     def __init__(self, name: str, version: str , path: str = ""):
@@ -40,3 +41,9 @@ class Package:
         for dependence in dependencies_raw:
             dependencies.append(re.findall(r'id=".*?"', dependence) + re.findall(r'version=".*?"', dependence))
         return dependencies
+    def clear_memory(self) -> None:
+        try:
+            if self.path != "":
+                os.remove(self.path)
+        except Exception as e:
+            print(f"Error: {e}")

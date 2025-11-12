@@ -69,6 +69,7 @@ class CLI:
         for package in self.packages:
             if package.load_package_url(self.params["url"]) is not None:
                 print(package.search_dependencies_by_path())
+            package.clear_memory()
 
 
 # print(re.search(r'.*?.nuspec', "wethweth\nereryjeryj\nwetrhwerthwreth.nuspec"))
